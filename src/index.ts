@@ -4,8 +4,10 @@ import * as commandLineArgs from 'command-line-args';
 import * as commandLineUsage from 'command-line-usage';
 import { CommandVersion } from "./command-version";
 
+type CommandType = "hello" | "version";
+
 type MainConfig = {
-  command: "hello" | "version",
+  command: CommandType,
 };
 
 class Main {
@@ -34,14 +36,19 @@ class Main {
       defaultOption: true,
     }
   ];
+
+  private commandMap =  new Map<CommandType, ()=>number>([
+    [ "hello", () => new CommandHello().exec() ],
+    [ "version", () => new CommandVersion().exec() ],
+  ]);
   
   run() {
     const cfg = commandLineArgs(this.paramDef, { partial: true }) as MainConfig;
 
-    if (cfg.command === "hello") {
-      new CommandHello().exec();
-    } else if (cfg.command === "version") {
-      new CommandVersion().exec();
+    const exec = this.commandMap.get(cfg.command);
+    if (exec != null) {
+      const ret = exec();
+      process.exit(ret);
     } else {
       const usg = commandLineUsage(this.mainUsage);
       console.log(usg);  

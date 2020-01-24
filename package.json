@@ -1,6 +1,6 @@
 {
   "name": "@amay/my-great-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Command Line Interface for my great service",
   "author": "amay077",
   "license": "MIT",

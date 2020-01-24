@@ -51,7 +51,7 @@ export class CommandHello {
     },
   ];
   
-  exec() {
+  exec(): number {
     const cfg = commandLineArgs(this.paramDef) as HelloConfig;
 
     // Valid require params
@@ -69,13 +69,15 @@ export class CommandHello {
       return -1;
     }
 
-    this.run(cfg);
+    return this.run(cfg);
   }
 
-  private run(cfg: HelloConfig) {
+  private run(cfg: HelloConfig): number {
     console.log(`Hello ${cfg.first_name} ${cfg.second_name}.`);
     if (cfg.age) {
       console.log(`You're ${cfg.age} years old.`);
     }
+
+    return 0;
   }
 }
